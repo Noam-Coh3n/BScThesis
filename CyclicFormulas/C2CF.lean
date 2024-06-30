@@ -39,12 +39,13 @@ structure C2CF extends C2CF' where
   -- meaningless in C2CF, but useful for extending to C2CP
   vF : V := vI
 
-  L     : V → Label
-  no_cm : ∀ v ≠ vF, ¬ checkmark (L v)
+  L        : V → Label
+  no_cm    : ∀ v ≠ vF, ¬ checkmark (L v)
+  i_no_cm  : ¬ checkmark (L vI)
 
   Ω          : V → Colour
   colouring  : ∀ v, col_admissible (L v) (Ω v)
-  monochrome : ∀ v w, (E+) v w → TC' E w v → Ω v = Ω w ∧ Ω v ≠ o
+  monochrome : ∀ v w, (E+) v w → (E+) w v → Ω v = Ω w ∧ Ω v ≠ o
 
   succ     : V → Option V
   lit_succ : ∀ v w, lit (L v) → ¬ E v w
@@ -83,10 +84,10 @@ instance : DecidablePred H.between := fun _ => Fintype.decidableExistsFintype
 end C2CP'
 
 structure C2CP extends C2CF where
-  -- vF     : V
   i_ne_f : vI ≠ vF
+  i_no_cm := no_cm vI i_ne_f
+
   LΩf    : L vF = .prop 0 ∧ Ω vF = .o
-  -- no_cm     : ∀ v ≠ vF, ¬ checkmark (L v)
 
   ΩX   : ∀ v, (E*) v vF → Ω v ≠ ν
   LX   : ∀ v, (E*) v vF → ¬ (match L v with | .box_atom _ => True | _ => False)
