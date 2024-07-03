@@ -90,6 +90,7 @@ protected def dual (𝔾 : C2CF) : C2CF where
   L       := ∂𝔾.L
 
   no_cm v v_ne_f c := 𝔾.no_cm v v_ne_f <| (dual_cm _).mpr c
+  i_no_cm c := 𝔾.i_no_cm <| (dual_cm _).mpr c
 
   Ω       := ∂𝔾.Ω
 
