@@ -4,7 +4,7 @@ import Mathlib.Init.Data.Subtype.Basic
 
 open C2CP C2CF Sum Sum3
 
-def G_p (n : Nat) : C2CF' where
+def G_p (_ : Nat) : C2CF' where
   V       := Fin 1
   E _ _   := False
   vI      := 0
@@ -13,6 +13,7 @@ def 𝔾_p (n : Nat) : C2CF where
   toC2CF' := G_p n
   L _     := .prop (n + 1)
   no_cm _ _ := not_false
+  i_no_cm := not_false
 
   Ω _     := .o
   colouring := (forall_const _).mpr trivial
@@ -146,6 +147,7 @@ def 𝔾_or (𝔾φ 𝔾ψ : C2CF) : C2CF where
   | in₂ y => 𝔾ψ.L y
 
   no_cm := sorry
+  i_no_cm := not_false
 
   Ω
   | in₀ _ => Colour.o
@@ -226,6 +228,7 @@ def 𝔾_dim (ℍα : C2CP) (𝔾φ : C2CF) : C2CF where
   | ⟨inl v, _⟩ => ℍα.L v
 
   no_cm := sorry
+  i_no_cm := ℍα.i_no_cm
 
   Ω
   | ⟨inr v, _⟩ => 𝔾φ.Ω v
@@ -265,7 +268,7 @@ def G_box (Hα : C2CP') (Gφ : C2CF') : C2CF' := ∂(G_dim Hα ∂Gφ)
 def 𝔾_box (ℍα : C2CP) (𝔾φ : C2CF) : C2CF := ∂(𝔾_dim ℍα ∂𝔾φ)
 
 @[simp]
-def HA (n : Nat) : C2CP' where
+def HA (_ : Nat) : C2CP' where
   V := Bool
   E := (. && !.)
   vI := true
@@ -279,6 +282,7 @@ def ℍA (n : Nat) : C2CP where
 
   L := (bif . then .dim_atom n else .prop 0)
   no_cm v _ _ := nomatch v
+  i_no_cm := not_false
 
   Ω _ := .o
   LΩf := by simp only [HA, cond_false, and_self]
